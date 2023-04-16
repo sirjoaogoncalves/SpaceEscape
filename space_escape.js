@@ -163,17 +163,21 @@ function handlePlayerMove(event) {
 
 // Handle touch events for mobile devices
 function handleTouchMove(event) {
-	event.preventDefault();
-	if (!isGameOver && !isWin) {
-		const touchX = event.touches[0].clientX - canvas.getBoundingClientRect().left;
-		const touchY = event.touches[0].clientY - canvas.getBoundingClientRect().top;
-		if (touchX < playerX + PLAYER_SIZE / 2 && touchX > playerX - PLAYER_SIZE / 2 && touchY < playerY + PLAYER_SIZE / 2 && touchY > playerY - PLAYER_SIZE / 2) {
-			// Touch is on the player, do nothing
-		} else {
-			playerX = touchX - PLAYER_SIZE / 2;
-			playerY = touchY - PLAYER_SIZE / 2;
-		}
-	}
+    event.preventDefault();
+    if (!isGameOver && !isWin) {
+        const touchX = event.touches[0].clientX - canvas.getBoundingClientRect().left;
+        const touchY = event.touches[0].clientY - canvas.getBoundingClientRect().top;
+
+        // Keep player within canvas boundaries
+        const newPlayerX = touchX - PLAYER_SIZE / 2;
+        const newPlayerY = touchY - PLAYER_SIZE / 2;
+        if (newPlayerX >= 0 && newPlayerX <= CANVAS_WIDTH - PLAYER_SIZE) {
+            playerX = newPlayerX;
+        }
+        if (newPlayerY >= 0 && newPlayerY <= CANVAS_HEIGHT - PLAYER_SIZE) {
+            playerY = newPlayerY;
+        }
+    }
 }
 
 // Add event listeners
