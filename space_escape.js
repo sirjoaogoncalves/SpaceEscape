@@ -1,5 +1,5 @@
  // Constants
-const CANVAS_WIDTH = 600;
+const CANVAS_WIDTH = 400;
 const CANVAS_HEIGHT = 400;
 const ENEMY_SIZE = 20;
 const ENEMY_SPEED = 1;
@@ -116,16 +116,30 @@ function startGame() {
 
 // Handle player movement
 function handlePlayerMove(event) {
-	if (!isGameOver && !isWin) {
-		switch (event.key) {
-			case 'ArrowLeft':
-				playerX -= PLAYER_SPEED;
-				break;
-			case 'ArrowRight':
-				playerX += PLAYER_SPEED;
-				break;
-		}
-	}
+  if (!isGameOver && !isWin) {
+    switch (event.key) {
+      case 'ArrowLeft':
+        if (playerX - PLAYER_SPEED >= 0) {
+          playerX -= PLAYER_SPEED;
+        }
+        break;
+      case 'ArrowRight':
+        if (playerX + PLAYER_SIZE + PLAYER_SPEED <= CANVAS_WIDTH) {
+          playerX += PLAYER_SPEED;
+        }
+        break;
+      case 'ArrowUp':
+        if (playerY - PLAYER_SPEED >= 0) {
+          playerY -= PLAYER_SPEED;
+        }
+        break;
+      case 'ArrowDown':
+        if (playerY + PLAYER_SIZE + PLAYER_SPEED <= CANVAS_HEIGHT) {
+          playerY += PLAYER_SPEED;
+        }
+        break;
+    }
+  }
 }
 
 // Handle restart button click
