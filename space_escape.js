@@ -5,7 +5,7 @@ const ENEMY_SIZE = 20;
 const ENEMY_SPEED = 1;
 const ENEMY_COLOR = 'green';
 const PLAYER_SIZE = 30;
-const PLAYER_SPEED = 5;
+const PLAYER_SPEED = 20;
 const PLAYER_COLOR = 'white';
 const GAME_OVER_COLOR = 'red';
 const GAME_OVER_TEXT = 'Game Over';
@@ -129,13 +129,57 @@ function handlePlayerMove(event) {
 				}
 				break;
 			case 'ArrowDown':
-				if (playerY + PLAYER_SIZE + PLAYER_SPEED <= CANVAS_HEIGHT) {
+				if (playerY + PLAYER_SIZE <= CANVAS_HEIGHT) {
+					playerY += PLAYER_SPEED;
+				}
+				break;
+			case 'ArrowUpLeft': // Handle diagonal movement: Up + Left
+				if (playerX - PLAYER_SPEED >= 0 && playerY - PLAYER_SPEED >= 0) {
+					playerX -= PLAYER_SPEED;
+					playerY -= PLAYER_SPEED;
+				}
+				break;
+			case 'ArrowUpRight': // Handle diagonal movement: Up + Right
+				if (playerX + PLAYER_SIZE <= CANVAS_WIDTH && playerY - PLAYER_SPEED >= 0) {
+					playerX += PLAYER_SPEED;
+					playerY -= PLAYER_SPEED;
+				}
+				break;
+			case 'ArrowDownLeft': // Handle diagonal movement: Down + Left
+				if (playerX - PLAYER_SPEED >= 0 && playerY + PLAYER_SIZE <= CANVAS_HEIGHT) {
+					playerX -= PLAYER_SPEED;
+					playerY += PLAYER_SPEED;
+				}
+				break;
+			case 'ArrowDownRight': // Handle diagonal movement: Down + Right
+				if (playerX + PLAYER_SIZE <= CANVAS_WIDTH && playerY + PLAYER_SIZE <= CANVAS_HEIGHT) {
+					playerX += PLAYER_SPEED;
 					playerY += PLAYER_SPEED;
 				}
 				break;
 		}
 	}
 }
+
+// Handle touch events for mobile devices
+function handleTouchMove(event) {
+	event.preventDefault();
+	if (!isGameOver && !isWin) {
+		const touchX = event.touches[0].clientX - canvas.getBoundingClientRect().left;
+		const touchY = event.touches[0].clientY - canvas.getBoundingClientRect().top;
+		if (touchX < playerX + PLAYER_SIZE / 2 && touchX > playerX - PLAYER_SIZE / 2 && touchY < playerY + PLAYER_SIZE / 2 && touchY > playerY - PLAYER_SIZE / 2) {
+			// Touch is on the player, do nothing
+		} else {
+			playerX = touchX - PLAYER_SIZE / 2;
+			playerY = touchY - PLAYER_SIZE / 2;
+		}
+	}
+}
+
+// Add event listeners
+document.addEventListener('keydown', handlePlayerMove);
+canvas.addEventListener('touchmove', handleTouchMove);
+
 
 // Handle restart button click
 function handleRestartClick() {
