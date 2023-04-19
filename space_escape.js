@@ -3,10 +3,8 @@ const CANVAS_WIDTH = 400;
 const CANVAS_HEIGHT = 400;
 const ENEMY_SIZE = 20;
 const ENEMY_SPEED = 1;
-const ENEMY_COLOR = 'green';
 const PLAYER_SIZE = 30;
 const PLAYER_SPEED = 20;
-const PLAYER_COLOR = 'white';
 const GAME_OVER_COLOR = 'red';
 const GAME_OVER_TEXT = 'Game Over';
 const WIN_COLOR = 'yellow';
@@ -25,16 +23,19 @@ let intervalId;
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
+const PLAYER_IMAGE = new Image();
+PLAYER_IMAGE.src = 'ship.jpeg'; 
+const ENEMY_IMAGE = new Image();
+ENEMY_IMAGE.src = 'enemy.jpeg'; 
+
 // Draw player
 function drawPlayer() {
-	ctx.fillStyle = PLAYER_COLOR;
-	ctx.fillRect(playerX, playerY, PLAYER_SIZE, PLAYER_SIZE);
+	ctx.drawImage(PLAYER_IMAGE, playerX, playerY, PLAYER_SIZE, PLAYER_SIZE);
 }
 
 // Draw enemy
 function drawEnemy(enemy) {
-	ctx.fillStyle = ENEMY_COLOR;
-	ctx.fillRect(enemy.x, enemy.y, ENEMY_SIZE, ENEMY_SIZE);
+	ctx.drawImage(ENEMY_IMAGE, enemy.x, enemy.y, ENEMY_SIZE, ENEMY_SIZE);
 }
 
 // Draw game over
